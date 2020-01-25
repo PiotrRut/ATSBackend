@@ -1,0 +1,35 @@
+{
+  "name": "atsbackend",
+  "version": "1.0.0",
+  "description": "Back end for Group 6's ATS System",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PiotrRut/ATSBackend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PiotrRut/ATSBackend/issues"
+  },
+  "homepage": "https://github.com/PiotrRut/ATSBackend#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.7",
+    "connect": "^3.7.0",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.4",
+    "cookie-session": "^1.4.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-mongoose-store": "^1.0.7",
+    "express-session": "^1.17.0",
+    "mongoose": "^5.8.9",
+    "nodemon": "^2.0.2",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0"
+  }
+}
