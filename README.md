@@ -10,4 +10,4 @@ We have chosen to create the system as a web app, based purely on React for the 
 
 ### Intallation
 
-In order to run the back end on your local machine, clone this repository, and run `node app.js` or `nodemon app.js` inside it. This will run the app at http://localhost:3001.
+In order to run the back end on your local machine, clone this repository, and run `node app.js` or `nodemon app.js` inside it (nodemon allows to update the source code and see the changes immediately, without having to restart the server). This will run the app at http://localhost:3001.
