@@ -24,7 +24,8 @@ app.get('/', (req, res) => res.send('API is working correctly!'))
 app.post('/addUser', (req, res) => {
   const user = new User({
     name: req.body.name,
-    surname: req.body.surname
+    surname: req.body.surname,
+    role: req.body.role
   }).save((err, response)=>{
     if(err) res.status(400).send(err)
     res.status(200).send(response)
