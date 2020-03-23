@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const passport = require('passport');
@@ -7,18 +8,19 @@ const cookieSession = require('cookie-session')
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
 const User = require('./schemas/User');
-require('dotenv').config();
 const bodyParser = require('body-parser');
 const app = express();
 const port =  process.env.PORT || 3001
 const saltRounds = 10;
 const auth = require('./auth/auth')
+const securedRoute = require('./router/secure-route');
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URL,
   { useNewUrlParser: true, useUnifiedTopology: true })
   .then(()=> console.log("DB is connected"))
   .catch(error => console.log(error));
+  mongoose.set('useCreateIndex', true);
 
 // CORS (Cross-Origin Resource Sharing) config, preventing violations in the future
 app.use(function (req, res, next) {
@@ -42,5 +44,7 @@ app.get('/', (req, res) => res.send('API is working correctly!'))
 
 // User authentication middleware route
 app.use('/auth', auth);
+app.use(passport.authenticate('jwt', { session : false }), securedRoute );
+
 
 app.listen(port, () => console.log(`Server running on port ${port}`))

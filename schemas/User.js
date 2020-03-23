@@ -12,11 +12,12 @@ const User = new Schema({
   },
   username: {
     type: String,
-    allowNull: false,
+    unique: true,
+    allowNull: false
   },
   passwordHash: {
     type: String,
-    allowNull: false,
+    allowNull: false
   }
 })
 
