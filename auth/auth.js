@@ -58,10 +58,10 @@ router.post('/login', async (req, res, next) => {
       }
       req.login(user, async (error) => {
         if( error ) return next(error)
-        const body = { _id : user._id, email : user.username };
+        const body = { _id : user._id, username : user.username };
         const token = jwt.sign({ user : body },'secret_top');
         console.log('Employee number ' + req.body.username + ' successfully logged in');
-        return res.json({ token });
+        return res.json({ token: "Bearer " + token });
         res.redirect('/')
       });     } catch (error) {
       return next(error);

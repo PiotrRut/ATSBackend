@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
-//Let's say the route below is very sensitive and we want only authorized users to have access
+const jwt = require('jsonwebtoken');
 
 //Displays information tailored according to the logged in user
 router.get('/payment', (req, res, next) => {
@@ -9,7 +8,7 @@ router.get('/payment', (req, res, next) => {
   res.json({
     message : 'Securely authenticated',
     user : req.user,
-    seuretoken : req.query.user_auth
+    securetoken : req.query.user_auth
   })
 });
 
