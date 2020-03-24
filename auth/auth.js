@@ -1,3 +1,6 @@
+require('dotenv').config();
+const cookieSession = require('cookie-session')
+const cookieParser = require('cookie-parser')
 const passport = require('passport');
 const flash = require('connect-flash');
 const express = require('express');
@@ -17,7 +20,7 @@ passport.deserializeUser((user, done) => {
 
 
 passport.use(new JWTstrategy({
-  secretOrKey : 'secret_top',
+  secretOrKey : process.env.JWT_SECRET,
   jwtFromRequest : ExtractJWT.fromUrlQueryParameter('user_auth')
 }, async (token, done) => {
   try {
@@ -51,7 +54,8 @@ router.post('/register', passport.authenticate('local'), async (req, res, next) 
 
 
 router.post('/login', async (req, res, next) => {
-  passport.authenticate('local', async (err, user, info) => {     try {
+  passport.authenticate('local', async (err, user, info) => {
+    try {
       if(err || !user){
         const error = new Error('Invalid credentials')
         return next(error);
@@ -59,16 +63,29 @@ router.post('/login', async (req, res, next) => {
       req.login(user, async (error) => {
         if( error ) return next(error)
         const body = { _id : user._id, username : user.username };
-        const token = jwt.sign({ user : body },'secret_top');
+        const token = jwt.sign(
+          { user : body },
+          process.env.JWT_SECRET,
+        );
+        res.cookie('token', token);
         console.log('Employee number ' + req.body.username + ' successfully logged in');
         return res.json({ token: "Bearer " + token });
         res.redirect('/')
-      });     } catch (error) {
+      });
+    } catch (error) {
       return next(error);
     }
   })(req, res, next);
 });
 
+router.get('/staff', (req, res) => {
+  jwt.verify(req.cookie.token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      res.json({ err: err });
+    }
+    res.json(decoded.body.username)
+  });
+});
 
 
 module.exports = router;

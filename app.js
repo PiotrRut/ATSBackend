@@ -32,7 +32,7 @@ app.use(function (req, res, next) {
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(session({
-    secret: 'secret',
+    secret: process.env.JWT_SECRET,
     resave: true,
     saveUninitialized: true
 }));
