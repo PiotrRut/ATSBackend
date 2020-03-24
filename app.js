@@ -44,7 +44,7 @@ app.get('/', (req, res) => res.send('API is working correctly!'))
 
 // User authentication middleware route
 app.use('/auth', auth);
-app.use(passport.authenticate('jwt', { session : false }), securedRoute );
+app.use('/auth', passport.authenticate('jwt', { session : false }), securedRoute );
 
 
 app.listen(port, () => console.log(`Server running on port ${port}`))

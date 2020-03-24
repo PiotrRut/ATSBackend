@@ -21,7 +21,7 @@ passport.deserializeUser((user, done) => {
 
 passport.use(new JWTstrategy({
   secretOrKey : process.env.JWT_SECRET,
-  jwtFromRequest : ExtractJWT.fromUrlQueryParameter('user_auth')
+  jwtFromRequest : ExtractJWT.fromUrlQueryParameter('secret_token')
 }, async (token, done) => {
   try {
     return done(null, token.user);
@@ -52,7 +52,7 @@ router.post('/register', passport.authenticate('local'), async (req, res, next) 
   });
 });
 
-
+// User login authentication middleware
 router.post('/login', async (req, res, next) => {
   passport.authenticate('local', async (err, user, info) => {
     try {
@@ -62,14 +62,14 @@ router.post('/login', async (req, res, next) => {
       }
       req.login(user, async (error) => {
         if( error ) return next(error)
-        const body = { _id : user._id, username : user.username };
+        const body = { _id : user._id, username : user.username, role: user.role };
         const token = jwt.sign(
           { user : body },
           process.env.JWT_SECRET,
         );
         res.cookie('token', token);
         console.log('Employee number ' + req.body.username + ' successfully logged in');
-        return res.json({ token: "Bearer " + token });
+        return res.json({ token: token });
         res.redirect('/')
       });
     } catch (error) {
@@ -83,7 +83,7 @@ router.get('/staff', (req, res) => {
     if (err) {
       res.json({ err: err });
     }
-    res.json(decoded.body.username)
+    res.json(decoded.role)
   });
 });
 

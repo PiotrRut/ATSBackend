@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt'),
 SALT_WORK_FACTOR = 10;
 const Schema = mongoose.Schema
 
+// Schema for making a new user account (for employees)
 const User = new Schema({
   name: String,
   surname: String,
@@ -21,6 +22,7 @@ const User = new Schema({
   }
 })
 
+// Generates salts and hash-encrypts the password before writing it to the database
 User.methods.validPassword = function(password) {
   return bcrypt.compareSync(password, this.passwordHash);
 };
