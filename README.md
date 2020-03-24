@@ -6,8 +6,15 @@ We have been asked to build from the bottom a fully functional system that will 
 
 ### Our solution
 
-We have chosen to create the system as a web app, based purely on React for the user interface, and Node & Express server-side, with MongoDB as our chosen database. There is a separate repository for the front end to this project, and is available [here](https://github.com/PiotrRut/AirTicketSales-System).
+We have chosen to create the system as a web app, based purely on React for the user interface, and Node & Express server-side, with MongoDB as our chosen database. There is a separate repository for the front end to this project, and is available [here](https://github.com/PiotrRut/ATSFrontend).
 
-### Intallation
+The API documentation is available here [insert link]
+
+This API is utilising:
+* PassportJS and JWT for user authentication and authorisation
+* BCrypt for hashing and encrypting the passwords
+* MongoDB database system for storing and retrieving information
+
+### Installation
 
 In order to run the back end on your local machine, clone this repository, and run `node app.js` or `nodemon app.js` inside it (nodemon allows to update the source code and see the changes immediately, without having to restart the server). This will run the app at http://localhost:3001.
