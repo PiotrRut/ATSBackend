@@ -26,7 +26,6 @@ mongoose.connect(process.env.MONGO_URL,
 app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*')
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, authorization')
-  res.header('Access-Control-Allow-Methods', '*')
   next()
 })
 
@@ -45,6 +44,8 @@ app.get('/', (req, res) => res.send('API is working correctly!'))
 
 // User authentication middleware route
 app.use('/auth', auth);
+
+// Secure route, following the /auth endpoint only for logged in users
 app.use('/auth', passport.authenticate('jwt', { session : false }), securedRoute );
 
 
