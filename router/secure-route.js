@@ -10,6 +10,7 @@ router.get('/profileInfo', (req, res, next) => {
     user : req.user,
     securetoken : req.query.secret_token
   })
+  console.log(res)
 });
 
 module.exports = router;

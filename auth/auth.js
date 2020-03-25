@@ -45,11 +45,19 @@ const local = new LocalStrategy((username, password, done) => {
 passport.use("local", local);
 
 // Add user to the database
-router.post('/register', passport.authenticate('local'), async (req, res, next) => {
-  res.json({
-    message : 'Thank you, user ' + req.user.username + ' registered',
-    user : req.user
-  });
+router.post("/register", (req, res, next) => {
+  const { name, surname, role, username, password } = req.body;
+  User.create({ name, surname, role, username, password })
+    .then(user => {
+      req.login(user, err => {
+        if (err) next(err);
+        else res.send("User registered");
+      });
+    }).catch(err => {
+      if (err.name === "ValidationError") {
+        res.send(err)
+      } else next(err);
+    });
 });
 
 // User login authentication middleware
@@ -83,14 +91,6 @@ router.post('/login', async (req, res, next) => {
   })(req, res, next);
 });
 
-router.get('/staff', (req, res) => {
-  jwt.verify(req.cookie.token, process.env.JWT_SECRET, (err, decoded) => {
-    if (err) {
-      res.json({ err: err });
-    }
-    res.json(decoded.role)
-  });
-});
 
 
 module.exports = router;
