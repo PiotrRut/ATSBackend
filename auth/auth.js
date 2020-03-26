@@ -47,17 +47,23 @@ passport.use("local", local);
 // Add user to the database
 router.post("/register", (req, res, next) => {
   const { name, surname, role, username, password } = req.body;
-  User.create({ name, surname, role, username, password })
-    .then(user => {
-      req.login(user, err => {
-        if (err) next(err);
-        else res.send("User registered");
-      });
-    }).catch(err => {
-      if (err.name === "ValidationError") {
-        res.send(err)
-      } else next(err);
-    });
+  jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
+    if (decoded.user.role == 'Admin') {
+      User.create({ name, surname, role, username, password })
+        .then(user => {
+          req.login(user, err => {
+            if (err) next(err);
+            else res.send("User registered");
+          });
+        }).catch(err => {
+          if (err.name === "ValidationError") {
+            res.send(err.message)
+          } else next(err);
+        });
+    } else {
+      res.status(401).json({ message: 'Unauthorised' })
+    }
+  })
 });
 
 // User login authentication middleware

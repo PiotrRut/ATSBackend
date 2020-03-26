@@ -5,20 +5,27 @@ const Schema = mongoose.Schema
 
 // Schema for making a new user account (for employees)
 const User = new Schema({
-  name: String,
-  surname: String,
+  name: {
+    type: String,
+    required: true
+  },
+  surname: {
+    type: String,
+    required: true
+  },
   role: {
     type: String,
-    enum: ['Admin', 'Manager', 'Advisor']
+    enum: ['Admin', 'Manager', 'Advisor'],
+    required: true
   },
   username: {
     type: String,
     unique: true,
-    allowNull: false
+    required: true
   },
   passwordHash: {
     type: String,
-    allowNull: false
+    required: true
   }
 })
 
