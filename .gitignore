@@ -106,3 +106,4 @@ dist
 #ApiDoc files
 apidoc.js
 doc/
+apidoc.json

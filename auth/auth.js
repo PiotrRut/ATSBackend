@@ -44,22 +44,32 @@ const local = new LocalStrategy((username, password, done) => {
 });
 passport.use("local", local);
 
-// Add user to the database
+// Add user to the database (only accessible through Admin accounts)
 router.post("/register", (req, res, next) => {
   const { name, surname, role, username, password } = req.body;
+  // Verify the JWT and decode it
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
+    // If the role in the decded token is Admin, proceed to register
     if (decoded.user.role == 'Admin') {
       User.create({ name, surname, role, username, password })
         .then(user => {
           req.login(user, err => {
             if (err) next(err);
-            else res.send("User registered");
+            else res.json({
+              name: req.user.name,
+              surname: req.user.surname,
+              role: req.user.role,
+              username: req.user.username,
+              password: req.user.passwordHash
+            });
           });
+          // Catch and display any errors
         }).catch(err => {
           if (err.name === "ValidationError") {
             res.send(err.message)
           } else next(err);
         });
+      // If the user is not authorised as Admin, throw a 301
     } else {
       res.status(401).json({ message: 'Unauthorised' })
     }
