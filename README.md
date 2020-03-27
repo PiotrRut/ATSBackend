@@ -8,7 +8,7 @@ We have been asked to build from the bottom a fully functional system that will 
 
 We have chosen to create the system as a web app, based purely on React for the user interface, and Node & Express server-side, with MongoDB as our chosen database. There is a separate repository for the front end to this project, and is available [here](https://github.com/PiotrRut/ATSFrontend).
 
-The API documentation is available here [insert link]
+The API documentation is available [here](https://group6api.netlify.com)
 
 This API is utilising:
 * PassportJS and JWT for user authentication and authorisation
