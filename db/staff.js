@@ -31,7 +31,7 @@ router.delete('/deleteUser', (req, res, next) => {
   })
 });
 
-// Used to update a user record from the database
+// Used to update a user record in the database
 router.patch('/updateUser', (req, res, next) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
     if (decoded.user.role == 'Admin') {
@@ -40,7 +40,7 @@ router.patch('/updateUser', (req, res, next) => {
         doc.surname = req.body.surname;
         doc.role = req.body.role;
         doc.username = req.body.newUsername;
-        doc.password = req.body.password;
+        doc.passwordHash = req.body.password;
         doc.save()
       });
          res.status(200).json({ message: 'User ' + req.body.oldUsername + ' updated successfully' })

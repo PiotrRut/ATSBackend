@@ -34,7 +34,7 @@ passport.use(new JWTstrategy({
 const local = new LocalStrategy((username, password, done) => {
   User.findOne({ username })
     .then(user => {
-      if (!user || !user.validPassword(password)) {
+      if (!user || !user.isValidPassword(password)) {
         done(null, false, { message: "Invalid username/password" });
       } else {
         done(null, user);
@@ -51,7 +51,7 @@ router.post("/register", (req, res, next) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
     // If the role in the decded token is Admin, proceed to register
     if (decoded.user.role == 'Admin') {
-      User.create({ name, surname, role, username, password })
+      const user = User.create({ name, surname, role, username, password })
         .then(user => {
           req.login(user, err => {
             if (err) next(err);
