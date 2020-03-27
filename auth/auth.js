@@ -60,7 +60,7 @@ router.post("/register", (req, res, next) => {
               surname: req.user.surname,
               role: req.user.role,
               username: req.user.username,
-              password: req.user.passwordHash
+              password: req.user.password
             });
           });
           // Catch and display any errors
@@ -69,7 +69,7 @@ router.post("/register", (req, res, next) => {
             res.send(err.message)
           } else next(err);
         });
-      // If the user is not authorised as Admin, throw a 301
+      // If the user is not authorised as Admin, throw a 401
     } else {
       res.status(401).json({ message: 'Unauthorised' })
     }

@@ -13,6 +13,7 @@ const app = express();
 const port =  process.env.PORT || 3001
 const saltRounds = 10;
 const auth = require('./auth/auth')
+const getStaff = require('./db/staff.js');
 const securedRoute = require('./router/secure-route');
 
 // MongoDB connection
@@ -44,6 +45,7 @@ app.get('/', (req, res) => res.send('API is working correctly!'))
 
 // User authentication middleware route
 app.use('/auth', auth);
+app.use('/staff', getStaff)
 
 // Secure route, following the /auth endpoint only for logged in users
 app.use('/auth', passport.authenticate('jwt', { session : false }), securedRoute );
