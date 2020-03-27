@@ -15,6 +15,7 @@ const saltRounds = 10;
 const auth = require('./auth/auth')
 const getStaff = require('./db/staff.js');
 const securedRoute = require('./router/secure-route');
+const travelAgent = require('./db/travelagent');
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URL,
@@ -44,8 +45,9 @@ app.use(passport.session())
 app.get('/', (req, res) => res.send('API is working correctly!'))
 
 // Admin protected routes
-app.use('/auth', auth);
-app.use('/staff', getStaff)
+app.use('/auth', auth) // Authenticating
+app.use('/staff', getStaff) // Maintaining staff details
+app.use('/system', travelAgent) // Maintaining travel agent details
 
 // Secure route, following the /auth endpoint only for logged in users (all roles)
 app.use('/auth', passport.authenticate('jwt', { session : false }), securedRoute );
