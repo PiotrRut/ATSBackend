@@ -43,11 +43,11 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.get('/', (req, res) => res.send('API is working correctly!'))
 
-// User authentication middleware route
+// Admin protected routes
 app.use('/auth', auth);
 app.use('/staff', getStaff)
 
-// Secure route, following the /auth endpoint only for logged in users
+// Secure route, following the /auth endpoint only for logged in users (all roles)
 app.use('/auth', passport.authenticate('jwt', { session : false }), securedRoute );
 
 
