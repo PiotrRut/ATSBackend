@@ -13,13 +13,14 @@ const app = express();
 const port =  process.env.PORT || 3001
 const saltRounds = 10;
 const auth = require('./auth/auth')
-const getStaff = require('./db/staff.js');
+const staff = require('./dbRoutes/staff');
+const travelAgent = require('./dbRoutes/travelagent');
 const securedRoute = require('./router/secure-route');
-const travelAgent = require('./db/travelagent');
+const exchangeRate = require('./dbRoutes/exchangeRate')
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URL,
-  { useNewUrlParser: true, useUnifiedTopology: true })
+  { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
   .then(()=> console.log("DB is connected"))
   .catch(error => console.log(error));
   mongoose.set('useCreateIndex', true);
@@ -45,9 +46,10 @@ app.use(passport.session())
 app.get('/', (req, res) => res.send('API is working correctly!'))
 
 // Admin protected routes
-app.use('/auth', auth) // Authenticating
-app.use('/staff', getStaff) // Maintaining staff details
-app.use('/system', travelAgent) // Maintaining travel agent details
+app.use('/auth', auth) // Authenticating users
+app.use('/staff', staff) // Maintaining staff details
+app.use('/agency', travelAgent) // Maintaining travel agent details
+app.use('/sales', exchangeRate) // Maintaining the local currency exchange rate
 
 // Secure route, following the /auth endpoint only for logged in users (all roles)
 app.use('/auth', passport.authenticate('jwt', { session : false }), securedRoute );

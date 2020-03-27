@@ -5,7 +5,8 @@ const jwt = require('jsonwebtoken');
 const TravelAgent = require('../schemas/TravelAgent');
 
 
-// Used to retrieve all users stored in the database
+// Used to update travel agent details record in database, or create new one
+// if there is none
 router.post('/updateAgentDetails', (req, res, next) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
     if (decoded.user.role == 'Admin') {
@@ -32,6 +33,7 @@ router.post('/updateAgentDetails', (req, res, next) => {
   })
 });
 
+// Used to retrieve the travel agent details
 router.get('/getAgentDetails', (req, res, next) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
     if (decoded.user.role == 'Admin') {
