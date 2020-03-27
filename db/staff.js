@@ -40,7 +40,7 @@ router.patch('/updateUser', (req, res, next) => {
         doc.surname = req.body.surname;
         doc.role = req.body.role;
         doc.username = req.body.newUsername;
-        doc.passwordHash = req.body.password;
+        doc.password = req.body.password;
         doc.save()
       });
          res.status(200).json({ message: 'User ' + req.body.oldUsername + ' updated successfully' })

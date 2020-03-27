@@ -23,19 +23,25 @@ const User = new Schema({
     unique: true,
     required: true
   },
-  passwordHash: {
+  password: {
     type: String,
     required: true
   }
 })
 
 // Generates salts and hash-encrypts the password before writing it to the database
-User.methods.isValidPassword = function(password) {
-  return bcrypt.compareSync(password, this.passwordHash);
-};
+User.pre('save', async function(next){
+   const hash = await bcrypt.hash(this.password, 10);
+   this.password = hash;
+   next();
+ });
 
-User.virtual("password").set(function(value) {
-  this.passwordHash = bcrypt.hashSync(value, 12);
-});
+ User.methods.isValidPassword = async function(password){
+   const user = this;
+   const compare = await bcrypt.compare(password, user.password);
+   console.log(compare)
+   return compare;
+ }
+
 
 module.exports = mongoose.model('User', User )

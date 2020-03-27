@@ -33,13 +33,13 @@ passport.use(new JWTstrategy({
 // Initialise the passport.js local strategy for user authentication
 const local = new LocalStrategy((username, password, done) => {
   User.findOne({ username })
-    .then(user => {
-      if (!user || !user.isValidPassword(password)) {
-        done(null, false, { message: "Invalid username/password" });
-      } else {
-        done(null, user);
-      }
-    })
+  .then(async user => {
+    if (!user || !await user.isValidPassword(password)) {
+      return done(null, false, { message: "Invalid username/password" });
+    } else {
+      return done(null, user);
+    }
+})
     .catch(e => done(e));
 });
 passport.use("local", local);
