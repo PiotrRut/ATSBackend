@@ -14,15 +14,6 @@ router.post('/newCustomer', (req, res, next) => {
         alias: req.body.alias,
       })
       res.send('Updated successfully');
-    } else if (decoded.user.role == 'Manager') {
-      Customer.create({
-        name: req.body.name,
-        surname: req.body.surname,
-        alias: req.body.alias,
-        customerStatus: req.body.customerStatus,
-        discount: req.body.discount
-      })
-      res.send('Updated successfully');
     } else {
       res.status(401).json({ message: 'Unauthorised' })
     }
