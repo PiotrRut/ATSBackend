@@ -2,12 +2,18 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const Customer = new Schema({
-  name: String,
-  surname: String,
-  alias: String,
-  status: {
+  name: {
     type: String,
-    enum: ['Regular', 'Valued']
+    required: true
+  },
+  surname: {
+    type: String,
+    required: true
+  },
+  alias: String,
+  customerStatus: {
+    type: String,
+    enum: ['Regular', 'Valued'],
   },
   discount: {
     type: String,

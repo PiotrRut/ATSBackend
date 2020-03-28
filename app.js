@@ -14,9 +14,10 @@ const port =  process.env.PORT || 3001
 const saltRounds = 10;
 const auth = require('./auth/auth')
 const staff = require('./dbRoutes/staff');
-const travelAgent = require('./dbRoutes/travelagent');
-const securedRoute = require('./router/secure-route');
+const travelAgent = require('./dbRoutes/travelagent')
+const securedRoute = require('./router/secure-route')
 const exchangeRate = require('./dbRoutes/exchangeRate')
+const customers = require('./dbRoutes/customers')
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URL,
@@ -50,6 +51,7 @@ app.use('/auth', auth) // Authenticating users
 app.use('/staff', staff) // Maintaining staff details
 app.use('/agency', travelAgent) // Maintaining travel agent details
 app.use('/sales', exchangeRate) // Maintaining the local currency exchange rate
+app.use('/customers', customers) // Maintaining the users
 
 // Secure route, following the /auth endpoint only for logged in users (all roles)
 app.use('/auth', passport.authenticate('jwt', { session : false }), securedRoute );

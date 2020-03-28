@@ -8,7 +8,7 @@ const ExchangeRate = require('../schemas/ExchangeRate');
 // Used to update the local currenct exchange rate, or create a record if there is none
 router.post('/updateExchangeRate', (req, res, next) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
-    if (decoded.user.role == 'Admin') {
+    if (decoded.user.role == 'Advisor' || 'Manager') {
       var query = {},
           update = {
             localCurrencyCode: req.body.localCurrencyCode,
@@ -33,7 +33,7 @@ router.post('/updateExchangeRate', (req, res, next) => {
 // Used to retrieve the current exchange rate
 router.get('/getExchangeRate', (req, res, next) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
-    if (decoded.user.role == 'Admin') {
+    if (decoded.user.role == 'Advisor' || 'Manager') {
       ExchangeRate.find({}, function (err, details) {
         res.send(details);
     });
