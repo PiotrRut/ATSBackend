@@ -21,7 +21,7 @@ router.post('/newCustomer', (req, res, next) => {
 })
 
 
-// Used to update user information
+// Used to update customer information
 router.patch('/updateCustomer', (req, res, next) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
     if (decoded.user.role == 'Advisor') {
@@ -32,6 +32,7 @@ router.patch('/updateCustomer', (req, res, next) => {
         doc.save()
       });
         res.send('Customer updated successfully')
+      // Allow only managers to add customer status and discounts
     } else if (decoded.user.role == 'Manager') {
       Customer.findOne({ _id: req.body._id }, function (err, doc) {
         doc.customerStatus = req.body.customerStatus;
@@ -45,6 +46,7 @@ router.patch('/updateCustomer', (req, res, next) => {
   })
 });
 
+// Used to return all customers in the system
 router.get('/getAll', (req, res, next) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
     if (decoded.user.role == 'Manager' || 'Advisor') {
