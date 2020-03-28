@@ -13,7 +13,7 @@ router.post('/newCustomer', (req, res, next) => {
         surname: req.body.surname,
         alias: req.body.alias,
       })
-      res.send('Updated successfully');
+      res.send('Registered successfully');
     } else {
       res.status(401).json({ message: 'Unauthorised' })
     }
@@ -36,7 +36,7 @@ router.patch('/updateCustomer', (req, res, next) => {
     } else if (decoded.user.role == 'Manager') {
       Customer.findOne({ _id: req.body._id }, function (err, doc) {
         doc.customerStatus = req.body.customerStatus;
-        doc.discount = req.body.discountt;
+        doc.discount = req.body.discount;
         doc.save()
       });
       res.send('Customer updated successfully')
