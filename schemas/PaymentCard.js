@@ -2,6 +2,10 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const PaymentCard = new Schema({
+  custId: {
+    type: Schema.Types.ObjectID,
+    ref: 'Customer'
+  }
   nameOnCard: {
     type: String,
     required: true
