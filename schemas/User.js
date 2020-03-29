@@ -7,25 +7,20 @@ const Schema = mongoose.Schema
 const User = new Schema({
   name: {
     type: String,
-    required: true
   },
   surname: {
     type: String,
-    required: true
   },
   role: {
     type: String,
     enum: ['Admin', 'Manager', 'Advisor'],
-    required: true
   },
   username: {
     type: String,
     unique: true,
-    required: true
   },
   password: {
     type: String,
-    required: true
   }
 })
 
