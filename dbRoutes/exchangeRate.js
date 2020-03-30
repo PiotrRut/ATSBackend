@@ -9,9 +9,10 @@ const ExchangeRate = require('../schemas/ExchangeRate');
 router.post('/updateExchangeRate', (req, res, next) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
     if (decoded.user.role == 'Advisor' || 'Manager') {
-      var query = {},
+      var query = {
+          _id: req.body._id
+      },
           update = {
-            localCurrencyCode: req.body.localCurrencyCode,
             rate: req.body.rate
           },
           options = { upsert: true, new: true, setDefaultsOnInsert: true };
@@ -34,8 +35,8 @@ router.post('/updateExchangeRate', (req, res, next) => {
 router.get('/getExchangeRate', (req, res, next) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
     if (decoded.user.role == 'Advisor' || 'Manager') {
-      ExchangeRate.find({}, function (err, details) {
-        res.send(details);
+      ExchangeRate.findOne({}, function (err, exchangerates) {
+        res.send(exchangerates);
     });
     } else {
       res.status(401).json({ message: 'Unauthorised' })
