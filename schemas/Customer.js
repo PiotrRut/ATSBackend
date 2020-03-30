@@ -18,7 +18,9 @@ const Customer = new Schema({
   discount: {
     type: String,
     enum: ['Fixed', 'Flexible']
-  }
+  },
+  email: String,
+  phoneNo: String
 })
 
 module.exports = mongoose.model('Customer', Customer )

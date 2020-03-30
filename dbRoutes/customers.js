@@ -12,6 +12,8 @@ router.post('/newCustomer', (req, res, next) => {
         name: req.body.name,
         surname: req.body.surname,
         alias: req.body.alias,
+        email: req.body.email,
+        phoneNo: req.body.phoneNo
       })
       res.send('Registered successfully');
     } else {
@@ -29,6 +31,8 @@ router.patch('/updateCustomer', (req, res, next) => {
         doc.name = req.body.name;
         doc.surname = req.body.surname;
         doc.alias = req.body.alias;
+        doc.email = req.body.email,
+        doc.phoneNo = req.body.phoneNo
         doc.save()
       });
         res.send('Customer updated successfully')
@@ -52,6 +56,19 @@ router.get('/getAll', (req, res, next) => {
     if (decoded.user.role == 'Manager' || 'Advisor') {
       Customer.find({}, function (err, customers) {
         res.send(customers);
+    });
+    } else {
+      res.status(401).json({ message: 'Unauthorised' })
+    }
+  })
+});
+
+// Used to delete a user record from the database
+router.delete('/deleteCustomer', (req, res, next) => {
+  jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
+    if (decoded.user.role == 'Manager' || 'Advisor' ) {
+      Customer.deleteOne({ _id: req.body._id }, function (err, users) {
+        res.send(req.body._id + ' removed');
     });
     } else {
       res.status(401).json({ message: 'Unauthorised' })
