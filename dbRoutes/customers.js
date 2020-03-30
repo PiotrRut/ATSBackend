@@ -2,7 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const Customer = require('../schemas/Customer');
+const Customer = require('../schemas/Customer')
+const PaymentCard = require('../schemas/PaymentCard')
 
 // Used to add new customers in the system
 router.post('/newCustomer', (req, res, next) => {
@@ -55,8 +56,10 @@ router.get('/getAll', (req, res, next) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
     if (decoded.user.role == 'Manager' || 'Advisor') {
       Customer.find({}, function (err, customers) {
-        res.send(customers);
-    });
+        res.send(customers)
+    }).populate({ path: 'cards' }).exec((err, cards) => {
+      console.log("Populated User " + cards);
+    })
     } else {
       res.status(401).json({ message: 'Unauthorised' })
     }
@@ -75,5 +78,34 @@ router.delete('/deleteCustomer', (req, res, next) => {
     }
   })
 });
+
+router.post('/addPayment', async (req, res, next) => {
+  jwt.verify(req.query.secret_token, process.env.JWT_SECRET, async (err, decoded) => {
+    if (decoded.user.role == 'Advisor') {
+      try {
+        const result = await PaymentCard.create(req.body);
+        const customerId = req.body.owner;
+        const response = await Customer.findByIdAndUpdate(
+          customerId,
+          {
+            $push: { cards: result._id } //result._id has the value of newly created card
+          },
+          { new: true }
+        );
+    
+        res.send(response);
+      } catch (err) {
+        console.log(err);
+        res.status(500).send("Something went wrong");
+      }
+    } else {
+      res.status(401).json({ message: 'Unauthorised' })
+    }
+  })
+})
+
+
+
+router.get('')
 
 module.exports = router;

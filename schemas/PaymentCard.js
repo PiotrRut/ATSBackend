@@ -1,11 +1,12 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const Customer = require('../schemas/Customer')
 
 const PaymentCard = new Schema({
-  custId: {
+  owner: {
     type: Schema.Types.ObjectID,
     ref: 'Customer'
-  }
+  },
   nameOnCard: {
     type: String,
     required: true
