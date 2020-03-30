@@ -66,7 +66,7 @@ router.get('/getAll', (req, res, next) => {
   })
 });
 
-// Used to delete a user record from the database
+// Used to delete a user record from the database along with associated payment cards
 router.delete('/deleteCustomer', (req, res, next) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
     if (decoded.user.role == 'Manager' || 'Advisor' ) {
@@ -79,7 +79,7 @@ router.delete('/deleteCustomer', (req, res, next) => {
   })
 });
 
-// Add a new payment card and assign it to a specific Customer using their mongoID
+// Add a new payment card and assign it to a specific Customer using their mongoID if desired
 router.post('/addPayment', async (req, res, next) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, async (err, decoded) => {
     if (decoded.user.role == 'Advisor') {
@@ -93,7 +93,7 @@ router.post('/addPayment', async (req, res, next) => {
           },
           { new: true }
         );
-    
+
         res.send(response);
       } catch (err) {
         console.log(err);

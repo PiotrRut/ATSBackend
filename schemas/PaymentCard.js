@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const Customer = require('../schemas/Customer')
 
+// Schema for the payment card model
 const PaymentCard = new Schema({
   owner: {
     type: Schema.Types.ObjectID,

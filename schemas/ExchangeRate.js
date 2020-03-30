@@ -1,13 +1,12 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-// Yet to be completed
+// Schema for the exchange rate model
 const ExchangeRate = new Schema({
   localCurrencyCode: {
     type: String,
     required: true
   },
-  // enforce XXXXX.YYYY format on exchange rates
   rate: {
     type: String,
     required: true,

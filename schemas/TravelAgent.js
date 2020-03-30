@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
+// Schema for the travel agent model
 const TravelAgent= new Schema({
   name: {
     type: String,

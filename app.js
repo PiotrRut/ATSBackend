@@ -49,12 +49,13 @@ app.get('/', (req, res) => res.send('API is working correctly!'))
 
 // Admin protected routes
 app.use('/auth', auth) // Authenticating users
-app.use('/staff', staff) // Maintaining staff details
+app.use('/staff', staff) // Maintaining staff
 app.use('/agency', travelAgent) // Maintaining travel agent details
 app.use('/sales', exchangeRate) // Maintaining the local currency exchange rate
-app.use('/customers', customers) // Maintaining the users
+app.use('/customers', customers) // Maintaining the customers
 
 // Secure route, following the /auth endpoint only for logged in users (all roles)
+// Returns the token and information about currently logged in user
 app.use('/auth', passport.authenticate('jwt', { session : false }), securedRoute );
 
 

@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const PaymentCard = require('../schemas/PaymentCard')
 
+// Schema for the customer model
 const Customer = new Schema({
   name: {
     type: String,
@@ -23,7 +24,7 @@ const Customer = new Schema({
   email: String,
   phoneNo: String,
   cards: [{
-    type: Schema.Types.ObjectId, 
+    type: Schema.Types.ObjectId,
     ref: 'PaymentCard'
   }]
 })
