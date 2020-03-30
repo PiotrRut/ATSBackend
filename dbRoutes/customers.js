@@ -51,7 +51,7 @@ router.patch('/updateCustomer', (req, res, next) => {
   })
 });
 
-// Used to return all customers in the system
+// Used to return all customers and associated cards in the system
 router.get('/getAll', (req, res, next) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
     if (decoded.user.role == 'Manager' || 'Advisor') {
@@ -79,6 +79,7 @@ router.delete('/deleteCustomer', (req, res, next) => {
   })
 });
 
+// Add a new payment card and assign it to a specific Customer using their mongoID
 router.post('/addPayment', async (req, res, next) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, async (err, decoded) => {
     if (decoded.user.role == 'Advisor') {
