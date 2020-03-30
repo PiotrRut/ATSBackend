@@ -6,7 +6,7 @@ const ExchangeRate = require('../schemas/ExchangeRate');
 
 
 // Used to update the local currenct exchange rate, or create a record if there is none
-router.post('/updateExchangeRate', (req, res, next) => {
+router.patch('/updateExchangeRate', (req, res, next) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
     if (decoded.user.role == 'Advisor' || 'Manager') {
       var query = {
