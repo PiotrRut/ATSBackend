@@ -107,6 +107,4 @@ router.post('/addPayment', async (req, res, next) => {
 
 
 
-router.get('')
-
 module.exports = router;
