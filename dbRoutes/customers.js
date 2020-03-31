@@ -28,14 +28,14 @@ router.post('/newCustomer', (req, res, next) => {
 router.patch('/updateCustomer', (req, res, next) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
     if (decoded.user.role == 'Advisor') {
-      Customer.findOne({ _id: req.body._id }, function (err, doc) {
-        doc.name = req.body.name;
-        doc.surname = req.body.surname;
-        doc.alias = req.body.alias;
-        doc.email = req.body.email,
-        doc.phoneNo = req.body.phoneNo
-        doc.save()
-      });
+        Customer.findOne({ _id: req.body._id }, function (err, doc) {
+            doc.name = req.body.name
+            doc.surname = req.body.surname
+            doc.alias = req.body.alias
+            doc.email = req.body.email
+            doc.phoneNo = req.body.phoneNo
+            doc.save()
+        });
         res.send('Customer updated successfully')
       // Allow only managers to add customer status and discounts
     } else if (decoded.user.role == 'Manager') {
@@ -58,7 +58,6 @@ router.get('/getAll', (req, res, next) => {
       Customer.find({}, function (err, customers) {
         res.send(customers)
     }).populate({ path: 'cards' }).exec((err, cards) => {
-      console.log("Populated User " + cards);
     })
     } else {
       res.status(401).json({ message: 'Unauthorised' })
