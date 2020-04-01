@@ -29,11 +29,21 @@ router.patch('/updateCustomer', (req, res, next) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
     if (decoded.user.role == 'Advisor') {
       Customer.findOne({ _id: req.body._id }, function (err, doc) {
-          doc.name = req.body.name
-          doc.surname = req.body.surname
-          doc.alias = req.body.alias
-          doc.email = req.body.email
-          doc.phoneNo = req.body.phoneNo
+          if (req.body.name) {
+            doc.name = req.body.name
+          }
+          if (req.body.surname) {
+            doc.surname = req.body.surname
+          }
+          if (req.body.alias) {
+            doc.alias = req.body.alias
+          }
+          if (req.body.email) {
+            doc.email = req.body.email
+          }
+          if (req.body.phoneNo) {
+            doc.phoneNo = req.body.phoneNo
+          }
           doc.save()
       });
         res.send('Customer updated successfully')

@@ -32,7 +32,7 @@ User.pre('save', async function(next){
  });
 
 // Used to campare whether a password entered at login matches
-// the stored and hashed password in the database  
+// the stored and hashed password in the database
  User.methods.isValidPassword = async function(password){
    const user = this;
    const compare = await bcrypt.compare(password, user.password);

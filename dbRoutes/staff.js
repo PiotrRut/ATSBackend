@@ -36,11 +36,21 @@ router.patch('/updateUser', (req, res, next) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
     if (decoded.user.role == 'Admin') {
       User.findOne({ username: req.body.oldUsername }, function (err, doc) {
-        doc.name = req.body.name;
-        doc.surname = req.body.surname;
-        doc.role = req.body.role;
-        doc.username = req.body.newUsername;
-        doc.password = req.body.password;
+        if (req.body.name) {
+          doc.name = req.body.name
+        }
+        if (req.body.surname) {
+          doc.surname = req.body.surname
+        }
+        if (req.body.role) {
+          doc.role = req.body.role
+        }
+        if (req.body.username) {
+          doc.username = req.body.username
+        }
+        if (req.body.password) {
+          doc.password = req.body.passport
+        }
         doc.save()
       });
          res.status(200).json({ message: 'User ' + req.body.oldUsername + ' updated successfully' })
