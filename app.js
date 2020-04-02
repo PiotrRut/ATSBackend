@@ -31,7 +31,7 @@ mongoose.connect(process.env.MONGO_URL,
 app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*')
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, authorization')
-  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE, PATCH")
+  res.header("Access-Control-Allow-Methods", '*')
   next()
 })
 
@@ -55,6 +55,7 @@ app.use('/agency', travelAgent) // Maintaining travel agent details
 app.use('/sales', exchangeRate) // Maintaining the local currency exchange rate
 app.use('/customers', customers) // Maintaining the customers
 app.use('/commissions', commissionRate) // Maintaining the commission rates
+
 
 // Secure route, following the /auth endpoint only for logged in users (all roles)
 // Returns the token and information about currently logged in user
