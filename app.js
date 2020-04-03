@@ -19,6 +19,8 @@ const securedRoute = require('./router/secure-route')
 const exchangeRate = require('./dbRoutes/exchangeRate')
 const customers = require('./dbRoutes/customers')
 const commissionRate = require('./dbRoutes/commission')
+const backup = require('./dbRoutes/backup')
+const blanks = require('./dbRoutes/blanks')
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URL,
@@ -55,6 +57,8 @@ app.use('/agency', travelAgent) // Maintaining travel agent details
 app.use('/sales', exchangeRate) // Maintaining the local currency exchange rate
 app.use('/customers', customers) // Maintaining the customers
 app.use('/commissions', commissionRate) // Maintaining the commission rates
+app.use('/backup', backup)
+app.use('/blanks', blanks)
 
 
 // Secure route, following the /auth endpoint only for logged in users (all roles)
