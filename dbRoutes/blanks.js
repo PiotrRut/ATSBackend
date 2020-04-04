@@ -40,7 +40,7 @@ router.post('/addBlanks', async (req, res) => {
 router.get('/getAll', (req, res) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) =>{
     if (decoded.user.role == 'Admin') {
-      BlankRange.find({}, function(err, blanks) {
+      Blank.find({}, function(err, blanks) {
         res.send(blanks)
       }).populate({ path: 'blanks' }).exec((err, blanks) => {
         })

@@ -45,11 +45,11 @@ router.patch('/updateUser', (req, res, next) => {
         if (req.body.role) {
           doc.role = req.body.role
         }
-        if (req.body.username) {
-          doc.username = req.body.username
+        if (req.body.newUsername) {
+          doc.username = req.body.newUsername
         }
         if (req.body.password) {
-          doc.password = req.body.passport
+          doc.password = req.body.password
         }
         doc.save()
       });

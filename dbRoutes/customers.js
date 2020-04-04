@@ -109,6 +109,7 @@ router.post('/addPayment', async (req, res, next) => {
         console.log(err);
         res.status(500).send("Something went wrong");
       }
+
     } else {
       res.status(401).json({ message: 'Unauthorised' })
     }
