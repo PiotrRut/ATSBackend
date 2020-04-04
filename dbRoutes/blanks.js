@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const Blank = require('../schemas/Blank')
+const BlankRange = require('../schemas/BlankRange')
 const {performance} = require('perf_hooks');
 
 /*
@@ -14,17 +15,23 @@ const {performance} = require('perf_hooks');
 router.post('/addBlanks', async (req, res) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, async (err, decoded) => {
     if (decoded.user.role == 'Admin') {
-      var blanks = [];
-      for (var i = req.body.from; i <= req.body.to; i++) {
-        blanks.push(i);
-        Blank.insertMany({
-          type: req.body.type,
-          number: `000000${blanks[blanks.length -1]}`,
-          void: req.body.void
-        })
-        console.log(blanks[blanks.length -1])
+      try {
+        var blanks = [];
+        for (var i = req.body.from; i <= req.body.to; i++) {
+          blanks.push(i);
+          var result = Blank.create({
+            type: req.body.type,
+            number: `000000${blanks[blanks.length -1]}`,
+            void: req.body.void
+          })
+          console.log(blanks[blanks.length -1])
+        }
+        res.send('Added successfully');
       }
-      res.send('Added successfully');
+      catch (err) {
+      console.log(err);
+      res.status(500).send("Something went wrong");
+      }
     } else {
       res.status(401).json({ message: 'Unauthorised' })
     }
@@ -34,9 +41,10 @@ router.post('/addBlanks', async (req, res) => {
 router.get('/getAll', (req, res) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) =>{
     if (decoded.user.role == 'Admin') {
-      Blank.find({}, function(err, blanks) {
+      BlankRange.find({}, function(err, blanks) {
         res.send(blanks)
-      })
+      }).populate({ path: 'blanks' }).exec((err, blanks) => {
+        })
     } else {
       res.status(401).json({ message: 'Unauthorised'})
     }
