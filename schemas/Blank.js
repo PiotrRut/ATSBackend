@@ -1,8 +1,12 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-// Schema for the commission rate model
+// Schema for the blank model
 const Blank = new Schema({
+  range: {
+    type: Schema.Types.ObjectID,
+    ref: 'BlankRange'
+  },
   type: Number,
   number: String,
   void: {

@@ -69,7 +69,7 @@ router.get('/getAll', (req, res, next) => {
       Customer.find({}, function (err, customers) {
         res.send(customers)
     }).populate({ path: 'cards' }).exec((err, cards) => {
-    })
+      })
     } else {
       res.status(401).json({ message: 'Unauthorised' })
     }

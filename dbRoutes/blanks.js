@@ -11,8 +11,7 @@ const {performance} = require('perf_hooks');
 * Individual blank records are then created withing that range,
 * each with unique ID's and void status (defaulted to false)
 */
-
-router.post('/addBlanks', async (req, res, next) => {
+router.post('/addBlanks', async (req, res) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, async (err, decoded) => {
     if (decoded.user.role == 'Admin') {
       var blanks = [];
@@ -28,6 +27,18 @@ router.post('/addBlanks', async (req, res, next) => {
       res.send('Added successfully');
     } else {
       res.status(401).json({ message: 'Unauthorised' })
+    }
+  })
+})
+
+router.get('/getAll', (req, res) => {
+  jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) =>{
+    if (decoded.user.role == 'Admin') {
+      Blank.find({}, function(err, blanks) {
+        res.send(blanks)
+      })
+    } else {
+      res.status(401).json({ message: 'Unauthorised'})
     }
   })
 })

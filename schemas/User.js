@@ -21,7 +21,11 @@ const User = new Schema({
   },
   password: {
     type: String,
-  }
+  },
+  blanks: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Blank'
+  }]
 })
 
 // Generates salts and hash-encrypts the password before writing it to the database
