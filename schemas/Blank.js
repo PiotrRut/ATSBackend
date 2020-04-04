@@ -3,9 +3,9 @@ const Schema = mongoose.Schema
 
 // Schema for the blank model
 const Blank = new Schema({
-  range: {
+  assignedTo: {
     type: Schema.Types.ObjectID,
-    ref: 'BlankRange'
+    ref: 'User'
   },
   type: Number,
   number: String,

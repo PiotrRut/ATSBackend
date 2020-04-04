@@ -3,7 +3,6 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const Blank = require('../schemas/Blank')
-const BlankRange = require('../schemas/BlankRange')
 const {performance} = require('perf_hooks');
 
 /*
