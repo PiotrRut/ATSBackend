@@ -15,11 +15,11 @@ const Customer = new Schema({
   alias: String,
   customerStatus: {
     type: String,
-    enum: ['Regular', 'Valued'],
+    default: 'Regular'
   },
   discount: {
     type: String,
-    enum: ['Fixed', 'Flexible']
+    default: null
   },
   email: String,
   phoneNo: String,

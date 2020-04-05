@@ -51,8 +51,12 @@ router.patch('/updateCustomer', (req, res, next) => {
       // Allow only managers to add customer status and discounts
     } else if (decoded.user.role == 'Manager') {
       Customer.findOne({ _id: req.body._id }, function (err, doc) {
-        doc.customerStatus = req.body.customerStatus;
-        doc.discount = req.body.discount;
+        if (req.body.customerStatus) {
+          doc.customerStatus = req.body.customerStatus;
+        }
+        if (req.body.discount) {
+          doc.discount = req.body.discount;
+        }
         doc.save()
       });
       res.send('Customer updated successfully')
