@@ -37,6 +37,7 @@ router.post('/addRate', (req, res, next) => {
     if (decoded.user.role == 'Manager') {
       CommissionRate.create({
         rate: req.body.rate,
+        type: req.body.type
       })
       res.send('Added successfully');
     } else {

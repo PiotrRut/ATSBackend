@@ -4,6 +4,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const Blank = require('../schemas/Blank')
 const {performance} = require('perf_hooks');
+const mongoose = require('mongoose')
 
 /*
 * Used to add a new range of blanks to the system.
@@ -16,9 +17,11 @@ router.post('/addBlanks', async (req, res) => {
     if (decoded.user.role == 'Admin') {
       try {
         var blanks = [];
+        const range = mongoose.Types.ObjectId()
         for (var i = req.body.from; i <= req.body.to; i++) {
           blanks.push(i);
           var result = Blank.create({
+            range: range,
             type: req.body.type,
             number: `000000${blanks[blanks.length -1]}`,
             void: req.body.void
@@ -49,5 +52,6 @@ router.get('/getAll', (req, res) => {
     }
   })
 })
+
 
 module.exports = router;

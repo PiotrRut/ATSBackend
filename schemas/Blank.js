@@ -3,6 +3,7 @@ const Schema = mongoose.Schema
 
 // Schema for the blank model
 const Blank = new Schema({
+  range: Schema.Types.ObjectID,
   assignedTo: {
     type: Schema.Types.ObjectID,
     ref: 'User'

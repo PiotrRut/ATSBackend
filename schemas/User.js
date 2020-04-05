@@ -40,7 +40,6 @@ User.pre('save', async function(next){
  User.methods.isValidPassword = async function(password){
    const user = this;
    const compare = await bcrypt.compare(password, user.password);
-   console.log(compare)
    return compare;
  }
 
