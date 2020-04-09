@@ -21,6 +21,7 @@ const customers = require('./dbRoutes/customers')
 const commissionRate = require('./dbRoutes/commission')
 const backup = require('./dbRoutes/backup')
 const blanks = require('./dbRoutes/blanks')
+const stockTnvReport = require('./dbRoutes/stockReports')
 
 // MongoDB connection via mongoose
 mongoose.connect(process.env.MONGO_URL,
@@ -59,6 +60,7 @@ app.use('/customers', customers) // Maintaining the customers
 app.use('/commissions', commissionRate) // Maintaining the commission rates
 app.use('/backup', backup) // Database backup routes
 app.use('/blanks', blanks) // Maintaining the blank stock
+app.use('/stock', stockTnvReport)
 
 
 // Secure route, following the /auth endpoint only for logged in users (all roles)

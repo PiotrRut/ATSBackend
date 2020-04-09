@@ -24,7 +24,6 @@ router.post('/addBlanks', async (req, res) => {
             range: range,
             type: req.body.type,
             number: `000000${blanks[blanks.length -1]}`,
-            void: req.body.void
           })
         }
         res.send('Added successfully');
