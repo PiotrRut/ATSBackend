@@ -87,7 +87,7 @@ router.delete('/deleteCustomer', (req, res, next) => {
       Customer.deleteOne({ _id: req.body._id }, function (err, users) {
         res.send(req.body._id + ' removed');
       });
-      Blank.deleteMany({ owner: req.body._id}, function (err, users) {
+      PaymentCard.deleteMany({ owner: req.body._id}, function (err, users) {
       });
     } else {
       res.status(401).json({ message: 'Unauthorised' })
