@@ -26,9 +26,14 @@ router.post('/addBlanks', async (req, res) => {
             number: `000000${blanks[blanks.length -1]}`,
             void: req.body.void
           })
-          console.log(blanks[blanks.length -1])
         }
         res.send('Added successfully');
+        Blank.create({
+          _id: range,
+          type: req.body.type,
+          from: `000000${req.body.from}`,
+          to: `000000${req.body.to}`
+        })
       }
       catch (err) {
       console.log(err);
@@ -43,8 +48,8 @@ router.post('/addBlanks', async (req, res) => {
 // Used to get ALL of the blanks currently stored, regardless of their range
 router.get('/getAll', (req, res) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) =>{
-    if (decoded.user.role == 'Admin') {
-      Blank.find({}, function(err, blanks) {
+    if (decoded.user.role == 'Admin' || 'Manager') {
+      var allBlanks = Blank.find({ range: !null }, function(err, blanks) {
         res.send(blanks)
       })
     } else {
@@ -54,10 +59,10 @@ router.get('/getAll', (req, res) => {
 })
 
 // Returns all blanks within a range, given the range ID associated included in body
-router.get('/getRange', (req, res) => {
+router.get('/getRangeContents', (req, res) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) =>{
-    if (decoded.user.role == 'Admin') {
-      Blank.find({ range: req.body.range }, function(err, range) {
+    if (decoded.user.role == 'Admin' || 'Manager') {
+      var ranges = Blank.find({ range: req.body.range }, function(err, range) {
         res.send(range)
       })
     } else {
@@ -66,11 +71,26 @@ router.get('/getRange', (req, res) => {
   })
 })
 
-router.post('/assignBlanks', async (req, res, next) => {
+// Returns all blanks within a range, given the range ID associated included in body
+router.get('/getRange', async (req, res) => {
+  jwt.verify(req.query.secret_token, process.env.JWT_SECRET, async (err, decoded) =>{
+    if (decoded.user.role == 'Admin' | 'Manager') {
+      var ranges = await Blank.find({ from: {$gte: 0 } }, function(err, range) {
+          res.send(range)
+      })
+    } else {
+      res.status(401).json({ message: 'Unauthorised'})
+    }
+  })
+})
+
+// Assigning blanks
+router.post('/assignBlanks', async (req, res) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, async (err, decoded) => {
     if (decoded.user.role == 'Manager') {
       try {
         const staffID = req.body.assignedTo;
+        const result = await Blank.find({_id: _id })
         const response = await User.findByIdAndUpdate(
           staffID,
           {
@@ -89,5 +109,18 @@ router.post('/assignBlanks', async (req, res, next) => {
   })
 })
 
+// Used to delete a user record from the database along with associated payment cards
+router.delete('/deleteRange', (req, res) => {
+  jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
+    if (decoded.user.role == 'Admin') {
+      Blank.deleteOne({ _id: req.body._id}, function (err, users) {
+      });
+      Blank.deleteMany({ range: req.body._id}, function (err, users) {
+      });
+    } else {
+      res.status(401).json({ message: 'Unauthorised' })
+    }
+  })
+});
 
 module.exports = router;

@@ -4,6 +4,8 @@ const Schema = mongoose.Schema
 // Schema for the blank model
 const Blank = new Schema({
   range: Schema.Types.ObjectID, // <- the range the blank was assigned to upon creation
+  from: Number,
+  to: Number,
   assignedTo: {
     type: Schema.Types.ObjectID, // <- the advisor this blank is assigned to, if assigned
     ref: 'User'

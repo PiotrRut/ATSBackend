@@ -8,7 +8,7 @@ const User = require('../schemas/User');
 // Used to retrieve all users stored in the database
 router.get('/getAll', (req, res, next) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
-    if (decoded.user.role == 'Admin') {
+    if (decoded.user.role == 'Admin' || 'Manager') {
       User.find({}, function (err, users) {
         res.send(users);
     }).populate({ path: 'blanks' }).exec((err, blanks) => {
