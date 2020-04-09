@@ -94,7 +94,7 @@ router.post('/assignBlanks', async (req, res) => {
         const response = await User.findByIdAndUpdate(
           staffID,
           {
-            $push: { blanks: result._id } //result._id has the value of newly created card
+            $push: { blanks: result._id } //result._id holds the _id of the blank being assigned
           },
           { new: true }
         );
@@ -109,7 +109,7 @@ router.post('/assignBlanks', async (req, res) => {
   })
 })
 
-// Used to delete a user record from the database along with associated payment cards
+// Used to delete a range and all of the associated blanks within that range
 router.delete('/deleteRange', (req, res) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
     if (decoded.user.role == 'Admin') {

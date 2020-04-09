@@ -22,7 +22,7 @@ const commissionRate = require('./dbRoutes/commission')
 const backup = require('./dbRoutes/backup')
 const blanks = require('./dbRoutes/blanks')
 
-// MongoDB connection
+// MongoDB connection via mongoose
 mongoose.connect(process.env.MONGO_URL,
   { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
   .then(()=> console.log("DB is connected"))
@@ -57,8 +57,8 @@ app.use('/agency', travelAgent) // Maintaining travel agent details
 app.use('/sales', exchangeRate) // Maintaining the local currency exchange rate
 app.use('/customers', customers) // Maintaining the customers
 app.use('/commissions', commissionRate) // Maintaining the commission rates
-app.use('/backup', backup)
-app.use('/blanks', blanks)
+app.use('/backup', backup) // Database backup routes
+app.use('/blanks', blanks) // Maintaining the blank stock
 
 
 // Secure route, following the /auth endpoint only for logged in users (all roles)
