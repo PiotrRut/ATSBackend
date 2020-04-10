@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const Blank = require('../schemas/Blank')
+const User = require('../schemas/User')
 const {performance} = require('perf_hooks');
 const mongoose = require('mongoose')
 
@@ -48,7 +49,7 @@ router.post('/addBlanks', async (req, res) => {
 router.get('/getAll', (req, res) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) =>{
     if (decoded.user.role == 'Admin' || 'Manager') {
-      var allBlanks = Blank.find({ range: !null }, function(err, blanks) {
+      var allBlanks = Blank.find({ range: {$ne: null} }, function(err, blanks) {
         res.send(blanks)
       })
     } else {
@@ -70,7 +71,7 @@ router.get('/getRangeContents', (req, res) => {
   })
 })
 
-// Returns all blanks within a range, given the range ID associated included in body
+// Returns all range entries
 router.get('/getRange', async (req, res) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, async (err, decoded) =>{
     if (decoded.user.role == 'Admin' | 'Manager') {
@@ -83,20 +84,32 @@ router.get('/getRange', async (req, res) => {
   })
 })
 
-// Assigning blanks
+/*
+* Used to add a new range of blanks to the system.
+* "req type" is the type of blanks being assigned.
+* "req to" and "req from" is the subset of blanks being assigned, for example
+*     from: 1, to: 5, will assign blanks 0000001 - 0000005.
+* "req assignedTo" is the ID of the advisor to whom we are assigning blanks.
+*/
 router.post('/assignBlanks', async (req, res) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, async (err, decoded) => {
     if (decoded.user.role == 'Manager') {
       try {
-        const staffID = req.body.assignedTo;
-        const result = await Blank.find({_id: _id })
-        const response = await User.findByIdAndUpdate(
-          staffID,
-          {
-            $push: { blanks: result._id } //result._id holds the _id of the blank being assigned
-          },
-          { new: true }
-        );
+        for (var i = req.body.from; i <= req.body.to; i++) {
+          console.log(i)
+          const result = await Blank.findOne({ type: req.body.type, number: `000000${i}`}, function (err, doc) {
+            doc.assignedTo = req.body.assignedTo;
+            doc.save();
+          });
+          const staffID = req.body.assignedTo; // const to query the users collection
+          const response = await User.findByIdAndUpdate(
+            staffID,
+            {
+              $push: { blanks: result._id } //result._id holds the _id of the blank being assigned
+            },
+            { new: true }
+          );
+        }
         res.send(response);
       } catch (err) {
         console.log(err);
