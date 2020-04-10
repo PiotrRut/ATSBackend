@@ -74,7 +74,7 @@ router.get('/getRangeContents', (req, res) => {
 // Returns all range entries
 router.get('/getRange', async (req, res) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, async (err, decoded) =>{
-    if (decoded.user.role == 'Admin' | 'Manager') {
+    if (decoded.user.role == 'Admin' || 'Manager') {
       var ranges = await Blank.find({ from: {$gte: 0 } }, function(err, range) {
           res.send(range)
       })
