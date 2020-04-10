@@ -13,8 +13,8 @@ const mongoose = require('mongoose')
 * Individual blank records are then created withing that range,
 * each with unique ID's and void status (defaulted to false)
 */
-router.post('/addBlanks', async (req, res) => {
-  jwt.verify(req.query.secret_token, process.env.JWT_SECRET, async (err, decoded) => {
+router.post('/addBlanks', (req, res) => {
+  jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
     if (decoded.user.role == 'Admin') {
       try {
         var blanks = [];
@@ -99,6 +99,7 @@ router.post('/assignBlanks', async (req, res) => {
           console.log(i)
           const result = await Blank.findOne({ type: req.body.type, number: `000000${i}`}, function (err, doc) {
             doc.assignedTo = req.body.assignedTo;
+            doc.dateAssigned = Date.now();
             doc.save();
           });
           const staffID = req.body.assignedTo; // const to query the users collection
@@ -110,7 +111,7 @@ router.post('/assignBlanks', async (req, res) => {
             { new: true }
           );
         }
-        res.send(response);
+        res.send(res);
       } catch (err) {
         console.log(err);
         res.status(500).send("Could not add");

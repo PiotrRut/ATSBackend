@@ -11,7 +11,7 @@ router.get('/getAll', (req, res, next) => {
     if (decoded.user.role == 'Admin' || 'Manager') {
       User.find({}, function (err, users) {
         res.send(users);
-    }).populate({ path: 'blanks' }).exec((err, blanks) => {
+    }).populate({ path: 'blanks', path: 'sales' }).exec((err, blanks, sales) => {
       })
     } else {
       res.status(401).json({ message: 'Unauthorised' })

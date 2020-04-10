@@ -25,6 +25,10 @@ const User = new Schema({
   blanks: [{
     type: Schema.Types.ObjectId,
     ref: 'Blank'
+  }],
+  sales: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Sale'
   }]
 })
 

@@ -11,20 +11,18 @@ const mongoose = require('mongoose')
 router.post('/newStockTnvReport', async (req, res) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, async (err, decoded) =>{
     if (decoded.user.role == 'Admin') {
-      var ranges = await Blank.find({ dateCreated: {$gte: req.body.from, $lt: req.body.to } }, function (err, range) {
-          res.send(range)
+      Blank.find({ $or:
+        [
+          { dateCreated: {$gte: req.body.from, $lt: req.body.to } },
+          { dateAssigned: {$gte: req.body.from, $lt: req.body.to } }
+        ]}, (err, results) => {
+        res.send(results)
       })
     } else {
       res.status(401).json({ message: 'Unauthorised'})
     }
   })
 })
-
-
-
-
-
-
 
 
 

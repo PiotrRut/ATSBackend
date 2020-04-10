@@ -109,7 +109,6 @@ router.post('/addPayment', async (req, res, next) => {
           },
           { new: true }
         );
-
         res.send(response);
       } catch (err) {
         console.log(err);

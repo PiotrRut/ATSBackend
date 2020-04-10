@@ -13,13 +13,14 @@ const Blank = new Schema({
   type: Number,
   number: String,
   void: {
-        type: Boolean,
-        default: false
+    type: Boolean,
+    default: false
   },
   dateCreated: { // <- date the blank and range were created
     type: Date,
     default: Date.now()
-  }
+  },
+  dateAssigned: Date
 })
 
 module.exports = mongoose.model('Blank', Blank )

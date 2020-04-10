@@ -2,7 +2,8 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 // Schema for the customer model
-const DomesticSale = new Schema({
+const Sale = new Schema({
+  saleType: String,
   blank: { // <- the blank used to make the sale
       type: Schema.Types.ObjectID,
       ref: 'Blank'
@@ -17,11 +18,11 @@ const DomesticSale = new Schema({
   },
   from: String,
   to: String,
-  GBP_price: { // <- local currency fare (if applicable) 
+  GBP_Price: { // <- local currency fare (if applicable)
       type: String,
       default: null
   },
-  USD_price: { // <- USD fare (if applicable) 
+  USD_Price: { // <- USD fare (if applicable)
       type: String,
       default: null
   },
@@ -29,8 +30,24 @@ const DomesticSale = new Schema({
   sold_date: {
       type: Date,
       default: Date.now()
+  },
+  latePayment: {
+    type: Boolean,
+    default: false
+  },
+  paymentType: String,
+  cardNumber: {
+    type: String,
+    default: null
+  },
+  localTax: String,
+  otherTaxes: {
+    type: String,
+    default: null
+  },
+  exchangeRate: {
+    type: String,
   }
-  /// ... couple fields missing
 })
 
-module.exports = mongoose.model('DomesticSale', DomesticSale )
+module.exports = mongoose.model('Sale', Sale )
