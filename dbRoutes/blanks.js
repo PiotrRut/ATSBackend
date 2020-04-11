@@ -111,11 +111,11 @@ router.post('/assignBlanks', async (req, res) => {
             { new: true }
           );
         }
-        res.send(res);
       } catch (err) {
         console.log(err);
         res.status(500).send("Could not add");
       }
+      res.send('Done');
     } else {
       res.status(401).json({ message: 'Unauthorised' })
     }
@@ -130,6 +130,7 @@ router.delete('/deleteRange', (req, res) => {
       });
       Blank.deleteMany({ range: req.body._id}, function (err, users) {
       });
+      res.send('Done')
     } else {
       res.status(401).json({ message: 'Unauthorised' })
     }

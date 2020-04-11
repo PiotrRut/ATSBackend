@@ -11,6 +11,10 @@ const Blank = new Schema({
     ref: 'User'
   },
   type: Number,
+  sold: {
+    type: Boolean,
+    default: false
+  },
   number: String,
   void: {
     type: Boolean,
