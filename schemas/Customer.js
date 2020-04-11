@@ -21,6 +21,10 @@ const Customer = new Schema({
     type: String,
     default: null
   },
+  fixedDiscount: String,
+  flexibleU1000: String,
+  flexibleO1000: String,
+  flexibleO2000: String,
   email: String,
   phoneNo: String,
   cards: [{

@@ -57,6 +57,18 @@ router.patch('/updateCustomer', (req, res, next) => {
         if (req.body.discount) {
           doc.discount = req.body.discount;
         }
+        if (req.body.fixedDiscount) {
+          doc.fixedDiscount = req.body.fixedDiscount;
+        }
+        if (req.body.flexibleU1000) {
+          doc.flexibleU1000 = req.body.flexibleU1000;
+        }
+        if (req.body.flexibleO1000) {
+          doc.flexibleO1000 = req.body.flexibleO1000;
+        }
+        if (req.body.flexibleO2000) {
+          doc.flexibleO2000 = req.body.flexibleO2000;
+        }
         doc.save()
       });
       res.send('Customer updated successfully')
