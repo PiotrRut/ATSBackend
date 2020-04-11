@@ -41,6 +41,10 @@ const Sale = new Schema({
     type: String,
     default: null
   },
+  issuer: {
+    type: String,
+    default: null
+  },
   localTax: String,
   otherTaxes: {
     type: String,

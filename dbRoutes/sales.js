@@ -12,13 +12,8 @@ const mongoose = require('mongoose')
 // Register a new sale, and add it to the seller's record
 router.post('/newSale', async (req, res) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, async (err, decoded) => {
-    if (decoded.user.role == 'Advisors') {
+    if (decoded.user.role == 'Advisor') {
       try {
-          var USD = ~~parseFloat( req.body.USD_Price) 
-          var GBP = ~~parseFloat( req.body.GBP_Price) 
-          var localTax = ~~parseFloat( req.body.localTax) 
-          var otherTax = ~~parseFloat( req.body.otherTax) 
-          var amount = USD + GBP + localTax + otherTax
           var result = await Sale.create({
             saleType: req.body.saleType,
             blank: req.body.blank,
@@ -34,9 +29,10 @@ router.post('/newSale', async (req, res) => {
             latePayment: req.body.latePayment,
             paymentType: req.body.paymentType,
             cardNumber: req.body.cardNumber,
+            issuer: req.body.issuer,
             exchangeRate: req.body.exchangeRate,
             sold_date: req.body.sold_date,
-            totalAmount: amount
+            totalAmount: req.body.totalAmount
           })
           const staffID = req.body.seller;
           const blankID  = req.body.blank
@@ -61,12 +57,12 @@ router.post('/newSale', async (req, res) => {
             doc.sold = true;
             doc.save();
           });
-        res.send('Added successfully');
       }
       catch (err) {
       console.log(err);
       res.status(500).send("Something went wrong");
       }
+      res.send('Added successfully');
     } else {
       res.status(401).json({ message: 'Unauthorised' })
     }

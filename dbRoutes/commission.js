@@ -8,7 +8,7 @@ const CommissionRate = require('../schemas/CommissionRate')
 // Used to retrieve all rates stored
 router.get('/getAll', (req, res, next) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
-    if (decoded.user.role == 'Manager') {
+    if (decoded.user.role == 'Manager' || 'Advisor') {
       CommissionRate.find({}, function (err, rates) {
         res.send(rates);
     });
