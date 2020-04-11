@@ -72,7 +72,9 @@ router.get('/getAll', (req, res, next) => {
     if (decoded.user.role == 'Manager' || 'Advisor') {
       Customer.find({}, function (err, customers) {
         res.send(customers)
-    }).populate({ path: 'cards' }).exec((err, cards) => {
+    }).populate({ path: 'cards' })
+      .populate({ path: 'purchases' })
+      .exec((err, cards, purchases) => {
       })
     } else {
       res.status(401).json({ message: 'Unauthorised' })

@@ -22,7 +22,6 @@ const Blank = new Schema({
   },
   dateCreated: { // <- date the blank and range were created
     type: Date,
-    default: Date.now()
   },
   dateAssigned: Date
 })

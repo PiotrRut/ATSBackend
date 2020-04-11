@@ -25,6 +25,7 @@ router.post('/addBlanks', (req, res) => {
             range: range,
             type: req.body.type,
             number: `000000${blanks[blanks.length -1]}`,
+            dateCreated: req.body.dateCreated
           })
         }
         res.send('Added successfully');
@@ -32,7 +33,8 @@ router.post('/addBlanks', (req, res) => {
           _id: range,
           type: req.body.type,
           from: `000000${req.body.from}`,
-          to: `000000${req.body.to}`
+          to: `000000${req.body.to}`,
+          dateCreated: req.body.dateCreated
         })
       }
       catch (err) {
@@ -71,6 +73,19 @@ router.get('/getRangeContents', (req, res) => {
   })
 })
 
+// Returns all blanks within a range, given the range ID associated included in body
+router.post('/blanksByAdvisor', (req, res) => {
+  jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) =>{
+    if (decoded.user.role == 'Advisor') {
+      var ranges = Blank.find({ assignedTo: req.body.myID }, function(err, blanks) {
+        res.send(blanks)
+      })
+    } else {
+      res.status(401).json({ message: 'Unauthorised'})
+    }
+  })
+})
+
 // Returns all range entries
 router.get('/getRange', async (req, res) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, async (err, decoded) =>{
@@ -99,7 +114,7 @@ router.post('/assignBlanks', async (req, res) => {
           console.log(i)
           const result = await Blank.findOne({ type: req.body.type, number: `000000${i}`}, function (err, doc) {
             doc.assignedTo = req.body.assignedTo;
-            doc.dateAssigned = Date.now();
+            doc.dateAssigned = req.body.dateAssigned;
             doc.save();
           });
           const staffID = req.body.assignedTo; // const to query the users collection

@@ -26,6 +26,10 @@ const Customer = new Schema({
   cards: [{
     type: Schema.Types.ObjectId,
     ref: 'PaymentCard'
+  }],
+  purchases: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Sale'
   }]
 })
 

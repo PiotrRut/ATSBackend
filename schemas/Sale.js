@@ -30,7 +30,7 @@ const Sale = new Schema({
   commission: String,
   sold_date: {
       type: Date,
-      default: Date.now()
+      default: Date.now() // TODO: change this, should be able to pick date
   },
   latePayment: {
     type: Boolean,
@@ -48,7 +48,8 @@ const Sale = new Schema({
   },
   exchangeRate: {
     type: String,
-  }
+  },
+  totalAmount: Number
 })
 
 module.exports = mongoose.model('Sale', Sale )
