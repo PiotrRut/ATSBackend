@@ -57,6 +57,15 @@ router.post('/newSale', async (req, res) => {
             doc.sold = true;
             doc.save();
           });
+          if (req.body.latePayment === 'true') {
+            const payLater = await Customer.findOne({ _id: req.body.customer}, function (err, doc) {
+              doc.outstandingBalance = ~~parseFloat(req.body.USD_Price) 
+              + ~~parseFloat(req.body.GBP_Price) 
+              + ~~parseFloat(req.body.localTax) 
+              + ~~parseFloat(req.body.otherTaxes) ;
+              doc.save();
+            });
+          }
       }
       catch (err) {
       console.log(err);

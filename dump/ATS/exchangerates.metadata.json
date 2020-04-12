@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_","ns":"ATS.exchangerates"}],"uuid":"e19a9b2a7f4645ea9654e92782fdfa16"}

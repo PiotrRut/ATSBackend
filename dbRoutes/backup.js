@@ -22,6 +22,7 @@ router.post('/backupdb', (req, res) => {
                 console.log('stdout: ' + data);
             });
     }
+    res.send("Backup successfull")
   })
 })
 
@@ -34,6 +35,7 @@ router.post('/restoredb', (req, res) => {
                 console.log('stdout: ' + data);
             });
     }
+    res.send("Restore successfull")
   })
 })
 

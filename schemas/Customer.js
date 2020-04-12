@@ -34,7 +34,8 @@ const Customer = new Schema({
   purchases: [{
     type: Schema.Types.ObjectId,
     ref: 'Sale'
-  }]
+  }],
+  outstandingBalance: String
 })
 
 module.exports = mongoose.model('Customer', Customer )

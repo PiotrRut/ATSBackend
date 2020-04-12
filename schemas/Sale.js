@@ -15,7 +15,6 @@ const Sale = new Schema({
   customer: {
       type: Schema.Types.ObjectID,
       ref: 'Customer',
-      default: null // in case of a casual customer this is left null
   },
   from: String,
   to: String,
