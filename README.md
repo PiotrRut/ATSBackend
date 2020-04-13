@@ -8,9 +8,9 @@ We have been asked to build from the bottom a fully functional system that will 
 
 We have chosen to create the system as a web app, based purely on React for the user interface, and Node & Express server-side, with MongoDB as our database. There is a separate repository for the front end to this project, and is available [here](https://github.com/PiotrRut/ATSFrontend).
 
-_The API documentation is available [here](https://api6.prutkowski.tech)_
+__The API documentation is available [here](https://api6.prutkowski.tech)__
 
-This API is utilising:
+This backend is utilising:
 * PassportJS and JWT for user authentication and authorisation
 * BCrypt for hashing and encrypting the passwords
 * MongoDB database system for storing and retrieving information
