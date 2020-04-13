@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-// Schema for the customer model
+// Schema for a new sale model
 const Sale = new Schema({
   saleType: String,
   blank: { // <- the blank used to make the sale
