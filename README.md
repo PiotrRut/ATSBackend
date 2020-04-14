@@ -6,11 +6,11 @@ We have been asked to build from the bottom a fully functional system that will 
 
 ### Our solution
 
-We have chosen to create the system as a web app, based purely on React for the user interface, and Node & Express server-side, with MongoDB as our database. There is a separate repository for the front end to this project, and is available [here](https://github.com/PiotrRut/ATSFrontend).
+We have chosen to create the system as a web app, based purely on React for the user interface, and Node & Express server-side, with MongoDB as our database. The GUI is made using the [material-ui](https://material-ui.com) library, based on Google's Material UI guidelines. There is a separate repository for the front end to this project, and is available [here](https://github.com/PiotrRut/ATSFrontend).
 
 __The API documentation is available [here](https://api6.prutkowski.tech)__
 
-This backend is utilising:
+This project is utilising:
 * PassportJS and JWT for user authentication and authorisation
-* BCrypt for hashing and encrypting the passwords
+* BCrypt for safe password encryption
 * MongoDB database system for storing and retrieving information
