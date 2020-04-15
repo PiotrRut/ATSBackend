@@ -79,7 +79,7 @@ router.post('/newSale', async (req, res) => {
 })
 
 // Get the list of all sales
-router.get('/getAll', (req, res, next) => {
+router.get('/getAll', (req, res) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
     if (decoded.user.role == 'Admin' || 'Manager' || 'Advisor') {
       Sale.find({}, function (err, sales) {

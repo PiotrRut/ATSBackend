@@ -6,7 +6,7 @@ const CommissionRate = require('../schemas/CommissionRate')
 
 
 // Used to retrieve all rates stored
-router.get('/getAll', (req, res, next) => {
+router.get('/getAll', (req, res) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
     if (decoded.user.role == 'Manager' || 'Advisor') {
       CommissionRate.find({}, function (err, rates) {
@@ -19,7 +19,7 @@ router.get('/getAll', (req, res, next) => {
 });
 
 // Used to delete a particular rate from the system
-router.delete('/delete', (req, res, next) => {
+router.delete('/delete', (req, res) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
     if (decoded.user.role == 'Manager') {
       CommissionRate.deleteOne({ _id: req.body._id }, function (err, rates) {
@@ -32,7 +32,7 @@ router.delete('/delete', (req, res, next) => {
 });
 
 // Used to add a new rate to the system
-router.post('/addRate', (req, res, next) => {
+router.post('/addRate', (req, res) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
     if (decoded.user.role == 'Manager') {
       CommissionRate.create({

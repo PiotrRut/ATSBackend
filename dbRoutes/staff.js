@@ -6,7 +6,7 @@ const User = require('../schemas/User');
 
 
 // Used to retrieve all users stored in the database
-router.get('/getAll', (req, res, next) => {
+router.get('/getAll', (req, res) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
     if (decoded.user.role == 'Admin' || 'Manager') {
       User.find({}, function (err, users) {
@@ -22,7 +22,7 @@ router.get('/getAll', (req, res, next) => {
 });
 
 // Used to delete a user record from the database
-router.delete('/deleteUser', (req, res, next) => {
+router.delete('/deleteUser', (req, res) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
     if (decoded.user.role == 'Admin') {
       User.deleteOne({ username: req.body.username }, function (err, users) {
@@ -35,7 +35,7 @@ router.delete('/deleteUser', (req, res, next) => {
 });
 
 // Used to update a user record in the database
-router.patch('/updateUser', (req, res, next) => {
+router.patch('/updateUser', (req, res) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
     if (decoded.user.role == 'Admin') {
       User.findOne({ username: req.body.oldUsername }, function (err, doc) {

@@ -7,7 +7,7 @@ const TravelAgent = require('../schemas/TravelAgent');
 
 // Used to update travel agent details record in database, or create new one
 // if there is none
-router.patch('/updateAgentDetails', (req, res, next) => {
+router.patch('/updateAgentDetails', (req, res) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
     if (decoded.user.role == 'Admin') {
       var query = {},
@@ -34,7 +34,7 @@ router.patch('/updateAgentDetails', (req, res, next) => {
 });
 
 // Used to retrieve the travel agent details
-router.get('/getAgentDetails', (req, res, next) => {
+router.get('/getAgentDetails', (req, res) => {
   jwt.verify(req.query.secret_token, process.env.JWT_SECRET, (err, decoded) => {
     if (decoded.user.role == 'Admin') {
       TravelAgent.findOne({}, function (err, details) {
