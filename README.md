@@ -6,7 +6,7 @@ We have been asked to build from the bottom a fully functional system that will 
 
 ### Our solution
 
-ur solution was based around creating the system as a web app, based purely on React for the user interface, and Node & Express server-side, with MongoDB as the database. The GUI is made using the [material-ui](https://material-ui.com) library, based on Google's Material UI guidelines. There is a separate repository for the front end to this project, and is available [here](https://github.com/PiotrRut/ATSFrontend).
+Our solution was based around creating the system as a web app, based purely on React for the user interface, and Node & Express server-side, with MongoDB as the database. The GUI is made using the [material-ui](https://material-ui.com) library, based on Google's Material UI guidelines. There is a separate repository for the front end to this project, and is available [here](https://github.com/PiotrRut/ATSFrontend).
 
 __The API documentation is available [here](https://api6.prutkowski.tech)__
 
